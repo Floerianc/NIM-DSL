@@ -9,10 +9,30 @@ proc getCommands*(): Table[string, CommandType] =
     return commands
 
 proc printAllHelp(): void =
+    ## Prints every help string for each
+    ## component of this DSL.
+    ## 
+    ## params:
+    ## 
+    ##      none
+    ## 
+    ## returns:
+    ## 
+    ##      void
     arithmetics.help()
     vars.help()
 
 proc loadArithmetics(): void =
+    ## Loads all the arithmetics commands
+    ## to the DSL command table
+    ## 
+    ## **params:**
+    ##      
+    ##      none
+    ## 
+    ## **returns**:
+    ##     
+    ##       void
     commands["PUSH"] = CommandType(proc(value: seq[string]) = push(value))
     commands["ADD"] = CommandType(proc(value: seq[string]) = add())
     commands["SUB"] = CommandType(proc(value: seq[string]) = sub())
@@ -26,12 +46,44 @@ proc loadArithmetics(): void =
     commands["HELP"] = CommandType(proc(value: seq[string]) = printAllHelp())
 
 proc loadVariables(): void =
+    ## Loads all the commands from the 
+    ## variables component to the DSL
+    ## command table
+    ## 
+    ## **params:**
+    ##      
+    ##      none
+    ## 
+    ## **returns**:
+    ##     
+    ##       void
     commands["VAR"] = CommandType(proc(value: seq[string]) = addVariable(value))
 
 proc loadMain(): void =
+    ## Loads all the commands from the
+    ## main file to the DSL command
+    ## table
+    ## 
+    ## **params:**
+    ##      
+    ##      none
+    ## 
+    ## **returns**:
+    ##     
+    ##       void
     commands["PRINT"] = CommandType(proc(value: seq[string]) = print(value))
 
 proc loadAllCommands(): void =
+    ## Loads every command from every component
+    ## of this DSL to the DSL command table
+    ## 
+    ## **params:**
+    ##      
+    ##      name: type
+    ## 
+    ## **returns**:
+    ##     
+    ##       name: description
     loadArithmetics()
     loadVariables()
     loadMain()

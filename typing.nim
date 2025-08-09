@@ -17,6 +17,20 @@ type
         strVal*: string = ""
 
 proc `$`*(si: StackItem): string =
+    ## A custom repr string for the StackItem
+    ## type. This returns a different string depending
+    ## on the type of variable.
+    ## 
+    ## **params:**
+    ##      
+    ##      si: StackItem
+    ##      The StackItem instance you want to convert
+    ##      to a string
+    ## 
+    ## **returns**:
+    ##     
+    ##       string
+    ##       repr string for the StackItem instance
     case si.kind:
     of StackItemType.siInt:
         result = "SI(type=\"" & $si.kind & "\", value=" & $si.intVal & ")"
@@ -24,4 +38,21 @@ proc `$`*(si: StackItem): string =
         result = "SI(type=\"" & $si.kind & "\", value=\"" & $si.strVal & "\")"
 
 proc createSI(sit: StackItemType, intVal: int = 0, strVal: string = ""): StackItem =
+    ## Returns a StackItem instance
+    ## 
+    ## **params:**
+    ##      
+    ##      sit: StackItemType
+    ##      Data type for the StackItem
+    ## 
+    ##      intVal: int
+    ##      Integer value of the StackItem. Defaults to 0
+    ## 
+    ##      strVal: string
+    ##      String value of the StackItem. Defaults to ""
+    ## 
+    ## **returns**:
+    ##     
+    ##       StackItem
+    ##       The StackItem, lol
     StackItem(kind: sit, intVal: intVal, strVal: strVal)

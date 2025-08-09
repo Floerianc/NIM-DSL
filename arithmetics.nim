@@ -24,9 +24,11 @@ proc pushInt(val: int): void =
     ## Pushes an integer as StackItem to the stack
     ## 
     ## **params**:
+    ## 
     ##  val: int
     ## 
     ## **returns**:
+    ## 
     ##  void
     stack.add(StackItem(kind: StackItemType.siInt, intVal: val))
 
@@ -34,9 +36,11 @@ proc pushStr(val: string): void =
     ## Pushes a string as StackItem to the stack
     ## 
     ## **params**:
+    ## 
     ##  val: int
     ## 
     ## **returns**:
+    ## 
     ##  void
     stack.add(StackItem(kind: StackItemType.siStr, strVal: val))
 
@@ -46,9 +50,11 @@ proc push*(value: seq[string]): void =
     ## pushed input into a StackItem.
     ## 
     ## **params**:
+    ## 
     ##  val: seq[string]
     ## 
     ## **returns**:
+    ## 
     ##  void
     var arg: string = value[^1]
     let variable: Option[Variable] = getVariable(arg)
@@ -67,9 +73,11 @@ proc add*(): void =
     ## to the stack.
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var a: (StackItem, StackItem) = popStack()
     pushInt(a[0].intVal + a[1].intVal)
@@ -80,9 +88,11 @@ proc sub*(): void =
     ## to the stack.
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var a: (StackItem, StackItem) = popStack()
     pushInt(a[0].intVal - a[1].intVal)
@@ -93,9 +103,11 @@ proc mul*(): void =
     ## to the stack.
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var a: (StackItem, StackItem) = popStack()
     pushInt(a[0].intVal * a[1].intVal)
@@ -107,9 +119,11 @@ proc modulo*(): void =
     ## to the stack.
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var a: (StackItem, StackItem) = popStack()
     pushInt(a[0].intVal mod a[1].intVal)
@@ -120,9 +134,11 @@ proc divide*(): void =
     ## to the stack.
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var a: (StackItem, StackItem) = popStack()
     var res: float = a[0].intVal / a[1].intVal
@@ -132,9 +148,11 @@ proc swap*(): void =
     ## Swaps the top two values
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var x: (StackItem, StackItem) = popStack()
     stack.add(x[1])
@@ -144,9 +162,11 @@ proc negate*(): void =
     ## Negates the top value
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     stack[^1].intVal = -stack[^1].intVal
 
@@ -154,9 +174,11 @@ proc duplicate*(): void =
     ## Duplicates the top value
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     stack.add(stack[^1])
 
@@ -164,9 +186,11 @@ proc clear*(): void =
     ## Clears the whole stack
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     stack.setLen(0)
 
@@ -175,13 +199,16 @@ proc print*(arg: seq[string]): void =
     ## the whole stack
     ## 
     ## **params**:
+    ## 
     ##  none
     ## 
     ## **returns**:
+    ## 
     ##  void
     var variable: Option[Variable] = getVariable(arg[^1])
     if variable.isSome():
         echo variable.get()
+        return
     
     for idx in 0..high(stack):
         let represent: string = typing.`$`(stack[idx])

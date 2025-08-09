@@ -6,6 +6,17 @@ import consoleAPI
 import std/tables
 
 proc parseInput(input: string): (string, seq[string]) =
+    ## Parses user input into the command and it's args
+    ## If there are no args it returns an empty sequence
+    ## of strings
+    ## 
+    ## **params:**
+    ##      
+    ##      input: string
+    ## 
+    ## **returns**:
+    ##     
+    ##       (string, seq[string]): Command and args
     let splitted_string: seq[string] = input.split(" ")
     let command: string = splitted_string[0]
     var args: seq[string]
@@ -16,17 +27,44 @@ proc parseInput(input: string): (string, seq[string]) =
         args.setLen(1)
     return (command, args)
 
-proc toStack(stack_input: Command): void =
-    let command: string = stack_input.command
+proc toStack(stackInput: Command): void =
+    ## Communicates with DSL command table to
+    ## make changes to stack or other data structures.
+    ## 
+    ## Due to loadAllCommands() being called way before
+    ## the initialisation of this function there 
+    ## (hopefully) won't be any issues with the way this
+    ## function looks up the function in the commands table.
+    ## 
+    ## **params:**
+    ##      
+    ##      stackInput: Command
+    ## 
+    ## **returns**:
+    ##     
+    ##       void
+    let command: string = stackInput.command
     var cmds: Table[string, CommandType] = commands.getCommands()
 
     if cmds.hasKey(command):
         var cmd: CommandType = cmds[command]
-        cmd(stack_input.args)
+        cmd(stackInput.args)
     else:
         printError("Couldn't find command \"" & command & "\"")
 
 proc main(): void =
+    ## This is the main procedure of the program
+    ## this is where the main loop of the user sending
+    ## commands and arguments to the backend starts
+    ## 
+    ## **params:**
+    ##      
+    ##      none
+    ##      
+    ## **returns**:
+    ##     
+    ##       void
+
     echo "Nim DSL - v0.4 - github.com/floerianc"
     echo "Enter \"HELP\" to see help for all commands"
     while true:
@@ -51,6 +89,7 @@ main()
 #   Support more than 2 integers    (X)
 #   Better typing                   (X)
 #   Modular                         (X)
+#   StackItemType to VarType        (X)
 #   Create base file for push etc   (WORKING ON...)
 #   Variable support                (X)
 #   Documentation                   (WORKING ON...)
