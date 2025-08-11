@@ -4,6 +4,29 @@
 
 `nim c -r -o:NIMDSL06 --outdir:./ --colors:on .\src\core\interpreter.nim`
 
+## Commands
+
+* PUSH [Literal or Variable]
+* PRINT Optional[Variable]
+* CLEAR
+* ADD
+* SUB
+* MUL
+* DIV
+* MOD
+* NEGATE
+* DUPLIC
+* SWAP
+* HELP
+* VAR (INT and STR)
+* IF
+* IFZERO
+* ELSE
+* END
+* EOF
+* EOSF
+* LOAD
+
 ## Ressources
 
 * [Nim procs](https://nim-by-example.github.io/procs/)
