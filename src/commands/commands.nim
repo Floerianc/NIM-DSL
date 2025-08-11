@@ -7,7 +7,7 @@ import fs
 import arithmetics
 import vars
 
-proc printAllHelp(): void =
+proc printAllHelp*(): void =
     ## Prints every help string for each
     ## component of this DSL.
     ## 

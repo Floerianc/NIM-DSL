@@ -86,7 +86,7 @@ proc main(): void =
 
         # Early check for HELP
         if cmd.command == "HELP":
-            
+            printAllHelp()
             continue
 
         # Checking for EOF or EOSF
