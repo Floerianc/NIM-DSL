@@ -101,7 +101,6 @@ proc main(): void =
         if safeExecute(cmd):
             if cmd.command in flowControls:
                 addLabel(cmd)
-                echo labels
             instructions.add(cmd)
             programCounter += 1
         else:
@@ -125,9 +124,15 @@ main()
 #   Variable support                    (X)
 #   Documentation                       (WORKING ON...)
 #   Control flow                        (WORKING ON...)
+#       Problem:                        (WORKING ON...)
+#           If we have two or more ifs
+#           then it will only jump to
+#           the next END, not the one
+#           to close the opening if
 #       Supported:
 #           IF (Literal / Variable)     (X)
 #           IFZERO                      (X)
 #           ELSE                        (X)
 #           END                         (X)
+#           WHILE                       (WORKING ON...)
 #   Load and save files                 (X)
