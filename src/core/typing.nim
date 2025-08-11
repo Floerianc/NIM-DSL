@@ -2,9 +2,10 @@ type
     Command* = object
         command*: string
         args*: seq[string]
-    CommandType* = proc(args: seq[string]) {.nimcall.}
+    CommandProc* = proc(args: seq[string]) {.nimcall.}
+    CompareProc* = proc(a, b: Variable): bool
     VarType* = enum 
-        INT, STR
+        INT, STR, NONE
     Variable* = object
         name*: string
         varType*: VarType = VarType.STR
@@ -37,7 +38,7 @@ proc `$`*(si: StackItem): string =
     of StackItemType.siStr:
         result = "SI(type=\"" & $si.kind & "\", value=\"" & $si.strVal & "\")"
 
-proc createSI(sit: StackItemType, intVal: int = 0, strVal: string = ""): StackItem =
+proc createSI*(sit: StackItemType, intVal: int = 0, strVal: string = ""): StackItem =
     ## Returns a StackItem instance
     ## 
     ## **params:**

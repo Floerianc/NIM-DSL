@@ -1,42 +1,21 @@
-import typing
+import ../core/typing as typing
 import options
-import consoleAPI
+import ../cli/consoleAPI as consoleAPI
+import ../core/syntax as syntax
+import ../core/utils as utils
 import strutils
 import std/tables
-from data import variables
+from ../core/data import variables
 
-proc checkSyntax(s: string, t: VarType): string =
-    ## Applies syntax rules to the variable declaration
-    ## I will perhaps move all the syntax steps to another
-    ## seperate file at some point but so far it's working
-    ## well.
-    ## 
-    ## **params:**
-    ##      
-    ##      s: string
-    ##      the variable's value
-    ## 
-    ##      t: VarType
-    ##      The data type of the variable
-    ## 
-    ## **returns**:
-    ##     
-    ##       type
-    ##      <description>
-    var str: string = s
-    case t:
-    of VarType.STR:
-        if (s[0] == '\"') and (s[^1] == '\"'):
-            return s.strip(chars = {'"'})
+proc getValueType*(s: string): VarType =
+    try:
+        discard parseInt(s)
+        return VarType.INT
+    except:
+        if s[0] == '"' and s[^1] == '"':
+            return VarType.STR
         else:
-            return str
-    of VarType.INT:
-        try:
-            discard parseInt(str)
-            return str
-        except:
-            printWarn("Couldn't parse integer. Returning default value -1 instead")
-            return "-1"
+            return VarType.NONE
 
 proc toVarType(s: string): VarType =
     ## Converts a string value to a VarType
@@ -88,7 +67,7 @@ proc toVar(args: seq[string]): Variable =
     let name: string = args[1]
 
     var text: string = join(args[2..high(args)], sep=" ")
-    let value: string = checkSyntax(text, typ)
+    let value: string = checkVarDeclaration(text, typ)
 
     return Variable(name: name, varType: typ, value: value)
 
@@ -122,7 +101,7 @@ proc getVariable*(arg: string): Option[Variable] =
     ## **returns**:
     ##     
     ##      Option[Variable]
-    ##      Option mayhaps containing a Variable instance.
+    ##      Option mayhaps containing a Variable object.
     if arg.isEmptyOrWhitespace():
         return none(Variable)
 
@@ -130,6 +109,16 @@ proc getVariable*(arg: string): Option[Variable] =
         return some(variables[arg])
     else:
         return none(Variable)
+
+proc createVariable*(name: string, kind: VarType, value: string): Variable =
+    var value: string = checkVarDeclaration(value, kind)
+    return Variable(name: name, varType: kind, value: value)
+
+proc createOrGetVariable*(name: string, kind: VarType, value: string): Variable =
+    if variables.hasKey(value):
+        return variables[value]
+    else:
+        return createVariable(utils.rndStr(), kind, value)
 
 proc help*(): void =
     echo """ --- VARIABLES

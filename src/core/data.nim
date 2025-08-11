@@ -3,8 +3,19 @@ from std/tables import
     Table
 import typing
 
-var stack*: seq[StackItem]
-var variables*: Table[string, Variable] = initTable[string, Variable]()
+var programCounter*: int = 0
+
+var commands*:          Table[string, CommandProc] = initTable[string, CommandProc]()
+var flowControls*:      seq[string]
+var operators*:         Table[string, CompareProc] = initTable[string, CompareProc]()
+
+var stack*:             seq[StackItem]
+var variables*:         Table[string, Variable] = initTable[string, Variable]()
+var instructions*:      seq[Command]
+var labels*:            seq[(string, int)]
+
+proc setPC*(n: int): void =
+    programCounter = n
 
 proc popStack*(): (StackItem, StackItem) =
     ## Pops the top two values from the top of
